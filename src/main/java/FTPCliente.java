@@ -10,6 +10,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+
+/**
+ * La idea de esta aplicación era coger un fichero encriptarlo y subirlo, luego bajarlo y desencriptarlo,
+ * pero como no he conseguido un Servidor FTP que me permita subir ficheros, finalmente desencripto
+ * el mismo fichero que encripté en la clase FTPServidor.
+ */
+
 public class FTPCliente {
 
     public static void main(String[] args) {
@@ -47,7 +54,7 @@ public class FTPCliente {
             scanner.close();
             System.out.println("Clave de desencriptación: " + key);
 
-            // Desencriptar el archivo descargado o local
+            // Desencriptar el archivo descargado
             byte[] keyBytes = key.getBytes("UTF-8");
 
             SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, "AES");
@@ -55,7 +62,7 @@ public class FTPCliente {
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
 
-            byte[] decryptedBytes = cipher.doFinal(Files.readAllBytes(Paths.get(localFile)));
+            byte[] decryptedBytes = cipher.doFinal(Files.readAllBytes(Paths.get(localFile))); //Aquí debería desencriptar de  downloadFile
 
             System.out.println("Datos desencriptados: " + new String(decryptedBytes));
 
